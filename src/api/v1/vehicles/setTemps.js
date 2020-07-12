@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const qs = require('querystring')
 
 const { getTransport } = require('../../../utils/transport')

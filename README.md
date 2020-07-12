@@ -8,97 +8,55 @@ _under development: features outlined below may not be final_
 
 I'm only focussing on the OAuth and Vehicles aspects of the Tesla API for now.
 
-The API follows the commands outlined in the [(unofficial) Tesla API](https://tesla-api.timdorr.com), but uses camelCase instead of underscores. The following is a very low-level mapping of the main commands.
+The API follows the commands outlined in the [(unofficial) Tesla API](https://tesla-api.timdorr.com), but uses camelCase instead of underscores.
+
+### Example
 
 ```js
-const api = require('node-tesla-api')
+const { oauth, vehicles } = require('node-tesla-api')
 
-const client = api(secret, id) // client_secret and client_id
-const getToken = async (email, password) =>
-  client.oauth.token({
+const DELAY = Number(process.env.TESLA_API_DELAY) || 2500
+
+const sleep = async delay => new Promise(resolve => setTimeout(resolve, delay))
+
+const wakeCar = async ({ id, token }) => {
+  const {
+    response: { state }
+  } = await vehicles.vehicle({ id, token })
+  if (state === 'online') return
+
+  await vehicles.wakeUp({ id, token })
+  await sleep(DELAY)
+  // try again
+  await wakeCar({ id, token })
+}
+
+const start = async (email, password) => {
+  const { accessToken: token } = await oauth.token({
     email,
     password,
-    grant_type: 'password'
+    // these values are an open secret.
+    clientSecret:
+      'c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3',
+    clientId:
+      '81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384',
+    grantType: 'password'
   })
+  console.log('token', token)
 
-const refreshToken = async (email, password) =>
-  client.oauth.token({
-    email,
-    password,
-    grant_type: 'refresh_token'
-  })
+  const { response: cars } = await vehicles.list({ token })
+  console.log('cars', cars)
 
-const revokeToken = async token => client.oauth.revoke({ token })
+  const { idS: id } = cars.find(car => car.displayName === 'Terry')
+  await wakeCar({ id, token })
 
-const listVehicles = async token => client.vehicles.list({ token })
+  const { response: state } = await vehicles.vehicleState({ id, token })
+  console.log('state', JSON.stringify(state, null, 2))
+}
 
-// use the vehicle's id_s field instead of id.
-const getVehicle = async (id, token) => client.vehicles.vehicle({ id, token })
-
-// then check to see if it's asleep. If it is then wake it up.
-const wakeUp = async (id, token) => client.vehicles.wakeUp({ id, token })
-
-// when it's awake you can get the vehicle data. Else you'll get a 408 error.
-const getVehicleData = async (id, token) => client.vehicles.data({ id, token })
-const getVehicleServiceData = async (id, token) =>
-  client.vehicles.serviceData({ id, token })
-const isMobileEnabled = async (id, token) =>
-  client.vehicles.mobileEnabled({ id, token })
-const chargeState = async (id, token) =>
-  client.vehicles.chargeState({ id, token })
-const climateState = async (id, token) =>
-  client.vehicles.climateState({ id, token })
-const driveState = async (id, token) =>
-  client.vehicles.driveState({ id, token })
-const guiSettings = async (id, token) =>
-  client.vehicles.guiSettings({ id, token })
-
-const unlock = async (id, token) => client.vehicles.doorUnlock({ id, token })
-const lock = async (id, token) => client.vehicles.doorLock({ id, token })
-const beep = async (id, token) => client.vehicles.honkHorn({ id, token })
-const flash = async (id, token) => client.vehicles.flashLights({ id, token })
-const startHVAC = async (id, token) =>
-  client.vehicles.autoConditioningStart({ id, token })
-const stopHVAC = async (id, token) =>
-  client.vehicles.autoConditioningStop({ id, token })
-const setTemperature = async (driverTemp, passengerTemp, id, token) =>
-  client.vehicles.setTemps({ driverTemp, passengerTemp, id, token })
-const setChargeLimit = async (limitValue, id, token) =>
-  client.vehicles.setChargeLimit({ limitValue, id, token })
-const setChargeToMax = async (id, token) =>
-  client.vehicles.chargeMaxRange({ id, token })
-const setChargeToStandard = async (id, token) =>
-  client.vehicles.chargeStandard({ id, token })
-const sunRoof = async (state, id, token) =>
-  client.vehicles.sunRoof({ state, id, token })
-const frunk = async (id, token) => client.vehicles.actuateTrunk({ id, token })
-const remoteStartDrive = async (id, token, password) =>
-  client.vehicles.remoteStartDrive({ id, token, password })
-const openChargePort = async (id, token) =>
-  client.vehicles.chargePortDoorOpen({ id, token })
-const closeChargePort = async (id, token) =>
-  client.vehicles.chargePortDoorClose({ id, token })
-const startCharging = async (id, token) =>
-  client.vehicles.chargeStart({ id, token })
-const stopCharging = async (id, token) =>
-  client.vehicles.chargeStop({ id, token })
-
-const calendar = async (id, token) =>
-  client.vehicles.upcomingCalendarEntries({ id, token })
-const enableValetMode = async (id, token, password) =>
-  client.vehicles.setValetMode({ id, token, on: true, password })
-const disableValetMode = async (id, token, password) =>
-  client.vehicles.setValetMode({ id, token, on: false, password })
-const resetValetPIN = async (id, token) =>
-  client.vehicles.resetValetPIN({ id, token })
-const enableSpeedLimit = async (id, token) =>
-  client.vehicles.speedLimitActivate({ id, token })
-const disableSpeedLimit = async (id, token) =>
-  client.vehicles.speedLimitDeactivate({ id, token })
-const setSpeedLimit = async (id, token) =>
-  client.vehicles.speedLimitDeactivate({ id, token })
-const resetSpeedLimitPIN = async (id, token) =>
-  client.vehicles.speedLimitClearPin({ id, token })
+start('your-tesla@account.email', 'Y0uRP@55w0rd').catch(err => {
+  console.error(err)
+})
 ```
 
 ## Development
@@ -150,3 +108,10 @@ npm run test:unit:cov
 ## Contributing
 
 Please see the [contributing notes](CONTRIBUTING.md).
+
+## To Do
+
+- DRY up the code some more
+- Add API unit tests and bring test coverage to 100%
+- Improve documentation
+- Make repo public.

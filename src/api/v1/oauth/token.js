@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { getTransport } = require('../../../utils/transport')
 const { validateFields } = require('../../../validation')
 
