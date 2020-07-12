@@ -36,10 +36,8 @@ const start = async (email, password) => {
     email,
     password,
     // these values are an open secret.
-    clientSecret:
-      'c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3',
-    clientId:
-      '81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384',
+    clientSecret: 'c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3',
+    clientId: '81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384',
     grantType: 'password'
   })
   console.log('token', token)

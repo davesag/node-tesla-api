@@ -172,10 +172,7 @@ describe('utils/makeTransformError', () => {
 
       context('error has a request', () => {
         it('throws a RequestError', () =>
-          expect(() => transformError({ message, request })).to.throw(
-            RequestError,
-            message
-          ))
+          expect(() => transformError({ message, request })).to.throw(RequestError, message))
       })
     })
 

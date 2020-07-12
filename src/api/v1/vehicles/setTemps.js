@@ -9,12 +9,7 @@ const validation = {
   passenger_temp: ['isRequired']
 }
 
-const setTemps = async ({
-  token,
-  id,
-  driverTemp: driver_temp,
-  passengerTemp: passenger_temp
-}) => {
+const setTemps = async ({ token, id, driverTemp: driver_temp, passengerTemp: passenger_temp }) => {
   const payload = { driver_temp, passenger_temp }
   const { post } = getTransport({ token })
   validateFields(payload, validation)

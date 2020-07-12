@@ -5,8 +5,7 @@ const transportOptions = {
 
 const defaultHeaders = {
   'Content-Type': 'application/json',
-  'User-Agent':
-    'Unofficial NodeJS Tesla API (github.com/davesag/node-tesla-api)'
+  'User-Agent': 'Unofficial NodeJS Tesla API (github.com/davesag/node-tesla-api)'
 }
 
 const defaultParams = {}

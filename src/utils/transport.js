@@ -21,18 +21,13 @@ const makeTransport = ({ headers: heads, ...options }) => {
 
   transport = axios.create(config)
 
-  transport.interceptors.response.use(
-    transformResponse,
-    makeTransformError(transport)
-  )
+  transport.interceptors.response.use(transformResponse, makeTransformError(transport))
   // any other config
 }
 
 const getTransport = ({ token, ...options } = {}) => {
   if (!transport) makeTransport(options)
-  const config = token
-    ? { headers: { Authorization: `Bearer ${token}` } }
-    : undefined
+  const config = token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
   console.log('config', config)
   const get = async path => transport.get(path, config)
   const post = async (path, data) => transport.post(path, data, config)

@@ -25,12 +25,7 @@ describe('utils/defined', () => {
     ['given NaN and no function', NaN, undefined, NaN],
     ['given undefined and no function'],
     ['given number 1 and function that adds 1', 1, n => n + 1, 2],
-    [
-      'given string "1" and function that doubles it',
-      '1',
-      s => `${s}${s}`,
-      '11'
-    ],
+    ['given string "1" and function that doubles it', '1', s => `${s}${s}`, '11'],
     ['given false and no function', false, undefined, false]
   ].forEach(doTest)
 })

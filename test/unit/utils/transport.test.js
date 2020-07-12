@@ -2,10 +2,7 @@ const { expect } = require('chai')
 const { match, stub, spy } = require('sinon')
 const proxyquire = require('proxyquire')
 
-const {
-  transportOptions: defaults,
-  defaultHeaders
-} = require('../../../src/defaults')
+const { transportOptions: defaults, defaultHeaders } = require('../../../src/defaults')
 
 describe('utils/transport', () => {
   const transformResponse = stub()

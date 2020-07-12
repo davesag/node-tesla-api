@@ -5,11 +5,9 @@ const defined = require('./defined')
 const MAX_RETRIES = 3
 const DELAY = 250
 
-const maxRetries = config =>
-  defined(config._retryCount) && config._retryCount === MAX_RETRIES
+const maxRetries = config => defined(config._retryCount) && config._retryCount === MAX_RETRIES
 
-const delay = config =>
-  config._retryCount ? (config._retryCount + 1) * DELAY : DELAY
+const delay = config => (config._retryCount ? (config._retryCount + 1) * DELAY : DELAY)
 
 const increment = config => ({
   ...config,
@@ -28,24 +26,15 @@ const transformError = transport => error => {
 
   if (canRetry(error)) {
     return new Promise(resolve =>
-      setTimeout(
-        () => resolve(transport(increment(error.config))),
-        delay(error.config)
-      )
+      setTimeout(() => resolve(transport(increment(error.config))), delay(error.config))
     )
   }
 
-  const details = error.config
-    ? { method: error.config.method, url: error.config.url }
-    : {}
+  const details = error.config ? { method: error.config.method, url: error.config.url } : {}
   if (error.code) details.code = error.code
 
   if (error.response) {
-    throw new ResponseError(
-      error.response.data.error,
-      error.response.status,
-      details
-    )
+    throw new ResponseError(error.response.data.error, error.response.status, details)
   }
 
   if (error.request) {

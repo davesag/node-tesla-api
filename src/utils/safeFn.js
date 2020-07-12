@@ -1,4 +1,3 @@
-const safeFn = (fn, ...params) =>
-  typeof fn === 'function' ? fn(...params) : undefined
+const safeFn = (fn, ...params) => (typeof fn === 'function' ? fn(...params) : undefined)
 
 module.exports = safeFn
