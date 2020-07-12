@@ -15,8 +15,6 @@ The API follows the commands outlined in the [(unofficial) Tesla API](https://te
 ```js
 const { oauth, vehicles } = require('node-tesla-api')
 
-const DELAY = Number(process.env.TESLA_API_DELAY) || 2500
-
 const sleep = async delay => new Promise(resolve => setTimeout(resolve, delay))
 
 const wakeCar = async ({ id, token }) => {
@@ -26,8 +24,7 @@ const wakeCar = async ({ id, token }) => {
   if (state === 'online') return
 
   await vehicles.wakeUp({ id, token })
-  await sleep(DELAY)
-  // try again
+  await sleep(2500)
   await wakeCar({ id, token })
 }
 
