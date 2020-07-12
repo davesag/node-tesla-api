@@ -1,0 +1,113 @@
+{
+  "name": "node-tesla-api",
+  "version": "0.0.1",
+  "description": "A modern nodeJS implementation of the (unofficial) Tesla API",
+  "author": "Dave Sag <davesag@gmail.com>",
+  "type": "commonjs",
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/davesag"
+  },
+  "main": "src/index.js",
+  "engines": {
+    "node": ">= 8.10.0"
+  },
+  "files": [
+    "src",
+    "CONTRIBUTING.md"
+  ],
+  "directories": {
+    "lib": "src",
+    "test": "test"
+  },
+  "scripts": {
+    "eslint-check": "eslint --print-config src/index.js | eslint-config-prettier-check",
+    "lint": "eslint .",
+    "prettier": "prettier --write '**/*.{js,json,md}'",
+    "test": "npm run test:unit",
+    "test:unit": "NODE_ENV=test mocha ./test/unit/ --require ./test/unitTestHelper.js --recursive",
+    "test:unit:cov": "NODE_ENV=test nyc mocha ./test/unit/ --require ./test/unitTestHelper.js --recursive",
+    "test:mutants": "NODE_ENV=test npx stryker run",
+    "snyk-protect": "snyk protect"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davesag/node-tesla-api.git"
+  },
+  "keywords": [
+    "tesla",
+    "api"
+  ],
+  "bugs": {
+    "url": "https://github.com/davesag/node-tesla-api/issues"
+  },
+  "homepage": "https://github.com/davesag/node-tesla-api#readme",
+  "devDependencies": {
+    "@stryker-mutator/core": "^3.3.1",
+    "@stryker-mutator/javascript-mutator": "^3.3.1",
+    "@stryker-mutator/mocha-framework": "^3.3.1",
+    "@stryker-mutator/mocha-runner": "^3.3.1",
+    "ajv": "^6.12.3",
+    "axios": "^0.19.2",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-mocha": "^7.0.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
+    "prettier": "^2.0.5",
+    "proxyquire": "^2.1.3",
+    "sinon": "^9.0.2",
+    "sinon-chai": "^3.5.0",
+    "snyk": "^1.361.3"
+  },
+  "peerDependencies": {
+    "axios": "^0.19.0"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "proseWrap": "never",
+    "arrowParens": "avoid",
+    "trailingComma": "none"
+  },
+  "lint-staged": {
+    "**/*.{js,json,md}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "nyc": {
+    "check-coverage": true,
+    "per-file": true,
+    "lines": 100,
+    "statements": 100,
+    "functions": 100,
+    "branches": 100,
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "all": true,
+    "cache": true
+  },
+  "snyk": true
+}
