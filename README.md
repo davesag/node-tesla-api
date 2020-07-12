@@ -61,7 +61,7 @@ start('your-tesla@account.email', 'Y0uRP@55w0rd').catch(err => {
 
 <!-- prettier-ignore -->
 | branch | status | coverage | audit | notes |
-| ------ | ------ | -------- | ----- |
+| ------ | ------ | -------- | ----- | ----- |
 | `develop` | `ci badge` | `code coverage badge` | `audit badge` | work in progress |
 | `master`  | `ci badge` | `code coverage badge` | `audit badge` | latest stable release |
 
