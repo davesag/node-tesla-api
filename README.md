@@ -66,8 +66,8 @@ start('your-tesla@account.email', 'Y0uRP@55w0rd').catch(err => {
 <!-- prettier-ignore -->
 | branch | status | coverage | audit | notes |
 | ------ | ------ | -------- | ----- | ----- |
-| `develop` | `ci badge` | `code coverage badge` | `audit badge` | work in progress |
-| `master`  | `ci badge` | `code coverage badge` | `audit badge` | latest stable release |
+| `develop` | [![CircleCI](https://circleci.com/gh/davesag/node-tesla-api/tree/develop.svg?style=svg)](https://circleci.com/gh/davesag/node-tesla-api/tree/develop) | [![codecov](https://codecov.io/gh/davesag/node-tesla-api/branch/develop/graph/badge.svg)](https://codecov.io/gh/davesag/node-tesla-api) | [![Vulnerabilities](https://snyk.io/test/github/davesag/node-tesla-api/develop/badge.svg)](https://snyk.io/test/github/davesag/node-tesla-api/develop) | work in progress |
+| `master`  | [![CircleCI](https://circleci.com/gh/davesag/node-tesla-api/tree/master.svg?style=svg)](https://circleci.com/gh/davesag/node-tesla-api/tree/master) | [![codecov](https://codecov.io/gh/davesag/node-tesla-api/branch/master/graph/badge.svg)](https://codecov.io/gh/davesag/node-tesla-api) | [![Vulnerabilities](https://snyk.io/test/github/davesag/node-tesla-api/master/badge.svg)](https://snyk.io/test/github/davesag/node-tesla-api/master) | latest stable release |
 
 ### Prerequisites
 
@@ -107,12 +107,15 @@ or with code coverage
 npm run test:unit:cov
 ```
 
+_code coverage on this project is shamefully lacking. I will fix that_
+
 ## Contributing
 
 Please see the [contributing notes](CONTRIBUTING.md).
 
 ## To Do
 
-- DRY up the code some more
+- Cross check the API with the latest updates
 - Add API unit tests and bring test coverage to 100%
+- DRY up the code some more
 - Improve documentation
