@@ -105,3 +105,6 @@ dist
 
 # Temporary root level testing files
 /*Test.js
+
+# macOS Desktop database
+.DS_Store
