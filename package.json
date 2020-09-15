@@ -94,11 +94,11 @@
   },
   "nyc": {
     "check-coverage": true,
-    "per-file": true,
-    "lines": 100,
-    "statements": 100,
-    "functions": 100,
-    "branches": 100,
+    "per-file": false,
+    "lines": 33,
+    "statements": 33,
+    "functions": 66,
+    "branches": 93,
     "include": [
       "src/**/*.js"
     ],
