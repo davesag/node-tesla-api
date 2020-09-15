@@ -1,6 +1,6 @@
 # node-tesla-api
 
-A modern nodeJS implementation of the [(unofficial) Tesla API](https://tesla-api.timdorr.com).
+A modern NodeJS implementation of the [(unofficial) Tesla API](https://tesla-api.timdorr.com).
 
 _under development: features outlined below may not be final_
 
@@ -9,6 +9,12 @@ _under development: features outlined below may not be final_
 I'm only focussing on the OAuth and Vehicles aspects of the Tesla API for now.
 
 The API follows the commands outlined in the [(unofficial) Tesla API](https://tesla-api.timdorr.com), but uses camelCase instead of underscores.
+
+**You'll need to own a Tesla to make use of this API.**
+
+Please feel free to use [my Tesla referral code](https://ts.la/david60377) when you buy a Tesla - we both get some free charging that way.
+
+My code is: [`david60377`](https://ts.la/david60377)
 
 ### Example
 
@@ -65,7 +71,7 @@ start('your-tesla@account.email', 'Y0uRP@55w0rd').catch(err => {
 
 ### Prerequisites
 
-- [NodeJS](htps://nodejs.org), version 12.18.2 (LTS) or better (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.)
+- [NodeJS](htps://nodejs.org), version 12.18.3 (LTS) or better (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.)
 
 ### Install dependencies
 
@@ -110,4 +116,3 @@ Please see the [contributing notes](CONTRIBUTING.md).
 - DRY up the code some more
 - Add API unit tests and bring test coverage to 100%
 - Improve documentation
-- Make repo public.

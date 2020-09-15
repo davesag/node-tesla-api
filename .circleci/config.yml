@@ -1,0 +1,44 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:latest
+        environment:
+        - NODE_ENV: test
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Install global packages
+          command: sudo npm install -g codecov
+
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      - save_cache:
+          key: dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+      - run:
+          name: Javascript Linter
+          command: npm run lint
+
+      - run:
+          name: Unit Tests with Code Coverage
+          command: npm run test:unit:cov
+
+      - run:
+          name: Send reports to codecov.io
+          command: codecov
