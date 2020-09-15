@@ -2,9 +2,15 @@
 
 A modern NodeJS implementation of the [(unofficial) Tesla API](https://tesla-api.timdorr.com).
 
+[![NPM](https://nodei.co/npm/node-tesla-api.png)](https://nodei.co/npm/node-tesla-api/)
+
 _under development: features outlined below may not be final_
 
 ## Usage
+
+```sh
+npm i node-tesla-api
+```
 
 I'm only focussing on the OAuth and Vehicles aspects of the Tesla API for now.
 
