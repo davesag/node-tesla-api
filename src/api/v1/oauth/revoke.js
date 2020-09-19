@@ -6,9 +6,9 @@ const validation = {
 }
 
 /**
- *  https://tesla-api.timdorr.com/api-basics/authentication
+ *  https://www.teslaapi.io/authentication/oauth#get-access-token
  *
- *  @param {Object} — with key `token`
+ *  @param {Object} — with key `token`, a string.
  *  @returns {Object} — api response object as per docs, but with camelCase keys.
  */
 const revoke = async ({ token }) => {

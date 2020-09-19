@@ -96,14 +96,16 @@
   "nyc": {
     "check-coverage": true,
     "per-file": false,
-    "lines": 33,
-    "statements": 33,
-    "functions": 66,
-    "branches": 93,
+    "lines": 87,
+    "statements": 87,
+    "functions": 77,
+    "branches": 94,
     "include": [
       "src/**/*.js"
     ],
-    "exclude": [],
+    "exclude": [
+      "src/index.js"
+    ],
     "reporter": [
       "lcov",
       "text"

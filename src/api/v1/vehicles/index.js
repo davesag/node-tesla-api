@@ -6,6 +6,7 @@ module.exports = {
   chargePortDoorOpen: require('./chargePortDoorOpen'),
   chargeStandard: require('./chargeStandard'),
   chargeStart: require('./chargeStart'),
+  chargeState: require('./chargeState'),
   chargeStop: require('./chargeStop'),
   climateState: require('./climateState'),
   doorLock: require('./doorLock'),
@@ -16,6 +17,7 @@ module.exports = {
   honkHorn: require('./honkHorn'),
   list: require('./list'),
   mobileEnabled: require('./mobileEnabled'),
+  nearbyChargingSites: require('./nearbyChargingSites'),
   remoteStartDrive: require('./remoteStartDrive'),
   resetValetPin: require('./resetValetPin'),
   serviceData: require('./serviceData'),
@@ -27,10 +29,11 @@ module.exports = {
   speedLimitDeactivate: require('./speedLimitDeactivate'),
   speedLimitSetLimit: require('./speedLimitSetLimit'),
   sunRoofControl: require('./sunRoofControl'),
+  triggerHomelink: require('./triggerHomelink'),
   upcomingCalendarEntries: require('./upcomingCalendarEntries'),
   vehicle: require('./vehicle'),
   vehicleConfig: require('./vehicleConfig'),
   vehicleData: require('./vehicleData'),
   vehicleState: require('./vehicleState'),
-  wakeUp: require('./wakeUp')
+  wake: require('./wake')
 }

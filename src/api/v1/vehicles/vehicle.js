@@ -1,4 +1,10 @@
 const { getTransport } = require('../../../utils/transport')
+const { validateFields } = require('../../../validation')
+
+const validation = {
+  token: ['isRequired'],
+  id: ['isRequired']
+}
 
 /**
  *  https://tesla-api.timdorr.com/api-basics/vehicles
@@ -7,6 +13,7 @@ const { getTransport } = require('../../../utils/transport')
  *  @returns {Object} — api response object as per docs, but with camelCase keys.
  */
 const vehicle = async ({ token, id }) => {
+  validateFields({ token, id }, validation)
   const path = `/api/1/vehicles/${id}`
   const { get } = getTransport({ token })
   return get(path)
