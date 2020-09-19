@@ -3,14 +3,14 @@ const { getTransport } = require('../../../utils/transport')
 const { validateFields } = require('../../../validation')
 
 const validation = {
-  email: ['isRequired'],
-  password: ['isRequired'],
+  client_id: ['isRequired'],
   client_secret: ['isRequired'],
-  client_id: ['isRequired']
+  refresh_token: ['isRequired']
 }
 
 /**
- *  https://tesla-api.timdorr.com/api-basics/authentication#post-oauth-token-grant_type-password
+ *  https://tesla-api.timdorr.com/api-basics/authentication#post-oauth-token-grant_type-refresh_token
+ *  https://www.teslaapi.io/authentication/oauth#get-access-token
  *
  *  Response
  *
@@ -22,15 +22,19 @@ const validation = {
  *    "expiresIn": 3888000
  *  }
  *
- *  @param {Object} — with required keys `email`, `password`, clientSecret, `clientId`
+ *  @param {Object} — with required keys `clientId`, `clientSecret`, and `refreshToken`,
  *  @returns {Object} — api response object
  */
-const token = async ({ email, password, clientSecret: client_secret, clientId: client_id }) => {
-  const payload = { email, password, client_secret, client_id, grant_type: 'password' }
+const refresh = async ({
+  refreshToken: refresh_token,
+  clientSecret: client_secret,
+  clientId: client_id
+}) => {
+  const payload = { refresh_token, client_secret, client_id, grant_type: 'refresh_token' }
   validateFields(payload, validation)
   const path = '/oauth/token'
   const { post } = getTransport()
   return post(path, payload)
 }
 
-module.exports = token
+module.exports = refresh

@@ -1,4 +1,5 @@
 module.exports = {
   revoke: require('./revoke'),
-  token: require('./token')
+  token: require('./token'),
+  refresh: require('./refresh')
 }
