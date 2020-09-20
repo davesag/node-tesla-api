@@ -28,7 +28,7 @@ const makeTransport = ({ headers: heads, ...options }) => {
 const getTransport = ({ token, ...options } = {}) => {
   if (!transport) makeTransport(options)
   const config = token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-  console.log('config', config)
+
   const get = async path => transport.get(path, config)
   const post = async (path, data) => transport.post(path, data, config)
 
