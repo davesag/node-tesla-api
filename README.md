@@ -319,13 +319,13 @@ const {
       chargePortColdWeatherMode, // boolean
       chargePortDoorOpen, // boolean
       chargePortLatch, // e.g "Engaged"  TODO: find out these values.
-      chargeRate, // a number (TODO: check these values when charging the car)
+      chargeRate, // a number TODO: check these values when charging the car
       chargeToMaxRange, // boolean
-      chargerActualCurrent: 0, // a number (TODO: check these values when charging the car)
+      chargerActualCurrent, // a number e.g 0   TODO: check these values when charging the car
       chargerPhases, // 1 = single, 3 = three  TODO: is there such a thing as 2 phase power?
       chargerPilotCurrent, // something else measured in amps (e.g. 8)
       chargerPower, // a number (TODO: check these values when charging the car)
-      chargerVoltage: 2, // an integer (e.g 2)
+      chargerVoltage, // an integer (e.g 2)
       chargingState, // e.g. "Stopped"  TODO: find out these values.
       connChargeCable, // e.g. "IEC"  TODO: find out these values.
       estBatteryRange, // floating point value using imperial units (miles) (e.g. 273.36)
@@ -344,7 +344,7 @@ const {
       timeToFullCharge, // integer count (e.g 0)
       timestamp: chsTimestamp,//  unix epoch timestamp
       tripCharging, // boolean
-      usableBatteryLevel: 93, // integer percentage (e.g 93)
+      usableBatteryLevel, // integer percentage (e.g 93)
       userChargeEnableRequest // e.g. null  TODO: find out these values.
     },
     climateState: {
@@ -576,32 +576,32 @@ const {
     batteryLevel, // integer percentage
     batteryRange, // floating point value using imperial units (miles)
     chargeCurrentRequest, // how many amps the car wants (e.g. 8)
-    chargeCurrentRequestMax,  // how many amps the car can have (e.g. 8)
+    chargeCurrentRequestMax, // how many amps the car can have (e.g. 8)
     chargeEnableRequest, // boolean
     chargeEnergyAdded, // floating point number (e.g 10.15)
     chargeLimitSoc, // integer percentage (e.g 94)
-    chargeLimitSocMax,  // integer percentage (e.g 100)
-    chargeLimitSocMin,   // integer percentage (e.g 50)
-    chargeLimitSocStd,  // integer percentage (e.g 90)
-    chargeMilesAddedIdeal,   // floating point number (e.g 41.5)
-    chargeMilesAddedRated,   // floating point number (e.g 41.5)
+    chargeLimitSocMax, // integer percentage (e.g 100)
+    chargeLimitSocMin, // integer percentage (e.g 50)
+    chargeLimitSocStd, // integer percentage (e.g 90)
+    chargeMilesAddedIdeal, // floating point number (e.g 41.5)
+    chargeMilesAddedRated, // floating point number (e.g 41.5)
     chargePortColdWeatherMode, // boolean
     chargePortDoorOpen, // boolean
     chargePortLatch, // e.g "Engaged"  TODO: find out these values.
     chargeRate, // a number (TODO: check these values when charging the car)
     chargeToMaxRange, // boolean
-    chargerActualCurrent: 0, // a number (TODO: check these values when charging the car)
+    chargerActualCurrent, // a number (TODO: check these values when charging the car)
     chargerPhases, // 1 = single, 3 = three  TODO: is there such a thing as 2 phase power?
     chargerPilotCurrent, // something else measured in amps (e.g. 8)
     chargerPower, // a number (TODO: check these values when charging the car)
-    chargerVoltage: 2, // an integer (e.g 2)
+    chargerVoltage, // an integer (e.g 2)
     chargingState, // e.g. "Stopped"  TODO: find out these values.
     connChargeCable, // e.g. "IEC"  TODO: find out these values.
     estBatteryRange, // floating point value using imperial units (miles) (e.g. 273.36)
     fastChargerBrand, // e.g. "<invalid>"
     fastChargerPresent, // boolean
     fastChargerType, // e.g. "MCSingleWireCAN"  TODO: find out these values.
-    idealBatteryRange,// floating point value using imperial units (miles) (e.g. 281.16)
+    idealBatteryRange, // floating point value using imperial units (miles) (e.g. 281.16)
     managedChargingActive, // boolean
     managedChargingStartTime, // a timestamp or null
     managedChargingUserCanceled, // boolean
@@ -611,9 +611,9 @@ const {
     scheduledChargingPending, // boolean
     scheduledChargingStartTime, //  unix epoch timestamp
     timeToFullCharge, // integer count (e.g 0)
-    timestamp,//  unix epoch timestamp
+    timestamp, //  unix epoch timestamp
     tripCharging, // boolean
-    usableBatteryLevel: 93, // integer percentage (e.g 93)
+    usableBatteryLevel, // integer percentage (e.g 93)
     userChargeEnableRequest // e.g. null  TODO: find out these values.
   }
 } = await vehicles.chargeState({ id, token })
