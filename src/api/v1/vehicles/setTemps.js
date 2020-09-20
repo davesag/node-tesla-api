@@ -1,20 +1,21 @@
 /* eslint-disable camelcase */
-const qs = require('querystring')
 
 const { getTransport } = require('../../../utils/transport')
 const { validateFields } = require('../../../validation')
 
+// TODO: Add validation for the temperature range.  Min seems to be 15.5°C.  Not tested max
 const validation = {
-  driver_temp: ['isRequired'],
-  passenger_temp: ['isRequired']
+  token: ['isRequired'],
+  id: ['isRequired'],
+  driver_temp: ['isRequired']
 }
 
 const setTemps = async ({ token, id, driverTemp: driver_temp, passengerTemp: passenger_temp }) => {
-  const payload = { driver_temp, passenger_temp }
+  const payload = { driver_temp, passenger_temp: passenger_temp || driver_temp }
+  validateFields({ ...payload, token, id }, validation)
   const { post } = getTransport({ token })
-  validateFields(payload, validation)
-  const params = qs.stringify(payload)
-  return post(`/api/1/vehicles/${id}/command/set_temps?${params}`)
+
+  return post(`/api/1/vehicles/${id}/command/set_temps`, payload)
 }
 
 module.exports = setTemps

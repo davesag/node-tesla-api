@@ -1,4 +1,9 @@
 const { getTransport } = require('../../../utils/transport')
+const { validateFields } = require('../../../validation')
+
+const validation = {
+  token: ['isRequired']
+}
 
 /**
  *  https://tesla-api.timdorr.com/api-basics/vehicles
@@ -8,6 +13,7 @@ const { getTransport } = require('../../../utils/transport')
  */
 const list = async ({ token }) => {
   const path = '/api/1/vehicles'
+  validateFields({ token }, validation)
   const { get } = getTransport({ token })
   return get(path)
 }

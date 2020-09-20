@@ -22,8 +22,6 @@ const canRetry = error =>
   !maxRetries(error.config)
 
 const transformError = transport => error => {
-  // console.log('caught error', error)
-
   if (canRetry(error)) {
     return new Promise(resolve =>
       setTimeout(() => resolve(transport(increment(error.config))), delay(error.config))
