@@ -1,7 +1,7 @@
 {
   "name": "node-tesla-api",
-  "version": "0.0.2",
-  "description": "A modern nodeJS implementation of the (unofficial) Tesla API",
+  "version": "0.0.3",
+  "description": "A modern NodeJS implementation of the (unofficial) Tesla API",
   "author": "Dave Sag <davesag@gmail.com>",
   "type": "commonjs",
   "license": "MIT",
