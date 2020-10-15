@@ -4,14 +4,15 @@ const { validateFields } = require('../../../validation')
 const validation = {
   token: ['isRequired'],
   id: ['isRequired'],
-  state: ['isRequired']
+  heater: ['isRequired'],
+  level: ['isRequired']
 }
 
-const sunRoofControl = async ({ token, id, state, percent }) => {
-  const payload = state === 'move' ? { state, percent } : { state }
+const setSeatHeater = async ({ token, id, heater, level }) => {
+  const payload = { heater, level }
   const { post } = getTransport({ token })
   validateFields({ ...payload, token, id }, validation)
-  return post(`/api/1/vehicles/${id}/command/sun_roof_control`, payload)
+  return post(`/api/1/vehicles/${id}/command/remote_seat_heater_request`, payload)
 }
 
-module.exports = sunRoofControl
+module.exports = setSeatHeater
