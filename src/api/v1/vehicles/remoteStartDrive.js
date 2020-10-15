@@ -1,9 +1,9 @@
-const qs = require('querystring')
-
 const { getTransport } = require('../../../utils/transport')
 const { validateFields } = require('../../../validation')
 
 const validation = {
+  token: ['isRequired'],
+  id: ['isRequired'],
   password: ['isRequired']
 }
 
@@ -16,9 +16,8 @@ const validation = {
 const remoteStartDrive = async ({ token, id, password }) => {
   const payload = { password }
   const { post } = getTransport({ token })
-  validateFields(payload, validation)
-  const params = qs.stringify(payload)
-  return post(`/api/1/vehicles/${id}/command/remote_start_drive?${params}`)
+  validateFields({ ...payload, token, id }, validation)
+  return post(`/api/1/vehicles/${id}/command/remote_start_drive`, payload)
 }
 
 module.exports = remoteStartDrive
