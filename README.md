@@ -868,20 +868,40 @@ Sets the temperature for the car's climate control system.
 
 The request requires the parameter `driverTemp`. It also accepts a `passengerTemp` but only the `driverTemp` is actually used right now. This may change in the future.
 
-**Notes**
+#### Notes
 
 - The values for `driverTemp` and `passengerTemp` are always in Metric (`°C`) no matter what you have set in `guiSettings`.
 - If you set the temperature very low or very high the HVAC system will start heating or cooling immediately.
 
 ```js
-const driverTemp = 23.4 // degrees celcius.
+const driverTemp = 23.4 // degrees celsius.
 const {
   response: { result, reason }
 } = await vehicles.setTemps({ id, token, driverTemp })
 ```
 
 - On `timdorr`: [`post-api-1-vehicles-id-command-auto_conditioning_stop`](https://tesla-api.timdorr.com/vehicle/commands/climate#post-api-1-vehicles-id-command-auto_conditioning_stop)
-- On `teslaapi`: [`stop-hvac-system`](https://www.teslaapi.io/vehicles/commands#stop-hvac-system)
+- On `teslaapi`: [`stop-hvac-system`](https://www.teslaapi.io/vehicles/commands#stop-hvac-system) the api claims that the params get passed in as query params but this is not actually true.
+
+---
+
+### `setPreconditoningMax`
+
+Toggles the climate controls between Max Defrost and the previous setting.
+
+#### Notes
+
+You can pass `on: true`, or 'on: false' to this multiple times, without error.
+
+```js
+const on = true // degrees celsius.
+const {
+  response: { result, reason }
+} = await vehicles.setPreconditioningMax({ id, token, on: true })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-set_preconditioning_max`](https://tesla-api.timdorr.com/vehicle/commands/climate#post-api-1-vehicles-id-command-set_preconditioning_max)
+- On `teslaapi`: not listed
 
 ---
 

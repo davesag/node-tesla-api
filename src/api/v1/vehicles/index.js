@@ -23,6 +23,7 @@ module.exports = {
   serviceData: require('./serviceData'),
   setChargeLimit: require('./setChargeLimit'),
   setTemps: require('./setTemps'),
+  setPreconditioningMax: require('./setPreconditioningMax'),
   setValetMode: require('./setValetMode'),
   speedLimitActivate: require('./speedLimitActivate'),
   speedLimitClearPin: require('./speedLimitClearPin'),
