@@ -24,6 +24,8 @@ module.exports = {
   setChargeLimit: require('./setChargeLimit'),
   setTemps: require('./setTemps'),
   setPreconditioningMax: require('./setPreconditioningMax'),
+  setSeatHeater: require('./setSeatHeater'),
+  setSteeringWheelHeater: require('./setSteeringWheelHeater'),
   setValetMode: require('./setValetMode'),
   speedLimitActivate: require('./speedLimitActivate'),
   speedLimitClearPin: require('./speedLimitClearPin'),

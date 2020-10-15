@@ -889,18 +889,59 @@ const {
 
 Toggles the climate controls between Max Defrost and the previous setting.
 
-#### Notes
-
 You can pass `on: true`, or 'on: false' to this multiple times, without error.
 
 ```js
-const on = true // degrees celsius.
 const {
   response: { result, reason }
 } = await vehicles.setPreconditioningMax({ id, token, on: true })
 ```
 
 - On `timdorr`: [`post-api-1-vehicles-id-command-set_preconditioning_max`](https://tesla-api.timdorr.com/vehicle/commands/climate#post-api-1-vehicles-id-command-set_preconditioning_max)
+- On `teslaapi`: not listed
+
+---
+
+### `setSeatHeater`
+
+Sets the seat heater level for the nominated seat.
+
+**Note** You _must_ have already turned the car's climate system on first with `autoConditioningStart` for this to work. If you don't you'll get an error. Also in testing I found this API call quite prone to timeout errors.
+
+| Value | Seat        |
+| ----- | ----------- |
+| `0`   | front left  |
+| `1`   | front right |
+| `2`   | rear left   |
+| `3`   | rear center |
+| `4`   | rear right  |
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.setSeatHeater({ id, token, heater: 0, level: 1 })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-remote_seat_heater_request`](https://tesla-api.timdorr.com/vehicle/commands/climate#post-api-1-vehicles-id-command-remote_seat_heater_request)
+- On `teslaapi`: not listed
+
+---
+
+### `setSteeringWheelHeater`
+
+Turns the steering wheel heater on or off.
+
+**Note** You _must_ have already turned the car's climate system on first with `autoConditioningStart` for this to work. If you don't you'll get an error.
+
+**Also Note** I am not sure that my Model 3 even has a steering wheel heater so all I get from this is a timeout error.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.setSteeringWheelHeater({ id, token, on: true }) // or on: false
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-remote_steering_wheel_heater_request`](https://tesla-api.timdorr.com/vehicle/commands/climate#post-api-1-vehicles-id-command-remote_steering_wheel_heater_request)
 - On `teslaapi`: not listed
 
 ---
@@ -919,7 +960,7 @@ _More API documentation to come_: See the actual code for what's completely supp
 
 ### Prerequisites
 
-- [NodeJS](htps://nodejs.org), version 12.18.4 (LTS) or better (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.)
+- [NodeJS](htps://nodejs.org), version 12.19.0 (LTS) or better (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.)
 
 ### Install dependencies
 
