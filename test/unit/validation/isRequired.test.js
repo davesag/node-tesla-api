@@ -17,6 +17,7 @@ describe('validation/isRequired', () => {
     ['an object', { test: 'test' }, null],
     ['an empty object', {}, err],
     ['undefined', undefined, err],
-    ['null', null, err]
+    ['null', null, err],
+    ['true', true, null]
   ].forEach(doTest)
 })

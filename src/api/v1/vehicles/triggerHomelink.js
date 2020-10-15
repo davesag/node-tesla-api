@@ -1,5 +1,3 @@
-const qs = require('querystring')
-
 const { getTransport } = require('../../../utils/transport')
 const { validateFields } = require('../../../validation')
 
@@ -19,9 +17,8 @@ const validation = {
 const triggerHomelink = async ({ token, id, lat, lon }) => {
   const payload = { lat, lon }
   const { post } = getTransport({ token })
-  validateFields(payload, validation)
-  const params = qs.stringify(payload)
-  return post(`/api/1/vehicles/${id}/command/trigger_homelink?${params}`)
+  validateFields({ ...payload, id, token }, validation)
+  return post(`/api/1/vehicles/${id}/command/trigger_homelink`, payload)
 }
 
 module.exports = triggerHomelink

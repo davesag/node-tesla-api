@@ -108,3 +108,6 @@ dist
 
 # macOS Desktop database
 .DS_Store
+
+# VS Code local config
+.vscode/

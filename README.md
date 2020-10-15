@@ -319,13 +319,13 @@ const {
       chargePortColdWeatherMode, // boolean
       chargePortDoorOpen, // boolean
       chargePortLatch, // e.g "Engaged"  TODO: find out these values.
-      chargeRate, // a number (TODO: check these values when charging the car)
+      chargeRate, // a number TODO: check these values when charging the car
       chargeToMaxRange, // boolean
-      chargerActualCurrent: 0, // a number (TODO: check these values when charging the car)
+      chargerActualCurrent, // a number e.g 0   TODO: check these values when charging the car
       chargerPhases, // 1 = single, 3 = three  TODO: is there such a thing as 2 phase power?
       chargerPilotCurrent, // something else measured in amps (e.g. 8)
       chargerPower, // a number (TODO: check these values when charging the car)
-      chargerVoltage: 2, // an integer (e.g 2)
+      chargerVoltage, // an integer (e.g 2)
       chargingState, // e.g. "Stopped"  TODO: find out these values.
       connChargeCable, // e.g. "IEC"  TODO: find out these values.
       estBatteryRange, // floating point value using imperial units (miles) (e.g. 273.36)
@@ -344,7 +344,7 @@ const {
       timeToFullCharge, // integer count (e.g 0)
       timestamp: chsTimestamp,//  unix epoch timestamp
       tripCharging, // boolean
-      usableBatteryLevel: 93, // integer percentage (e.g 93)
+      usableBatteryLevel, // integer percentage (e.g 93)
       userChargeEnableRequest // e.g. null  TODO: find out these values.
     },
     climateState: {
@@ -576,32 +576,32 @@ const {
     batteryLevel, // integer percentage
     batteryRange, // floating point value using imperial units (miles)
     chargeCurrentRequest, // how many amps the car wants (e.g. 8)
-    chargeCurrentRequestMax,  // how many amps the car can have (e.g. 8)
+    chargeCurrentRequestMax, // how many amps the car can have (e.g. 8)
     chargeEnableRequest, // boolean
     chargeEnergyAdded, // floating point number (e.g 10.15)
     chargeLimitSoc, // integer percentage (e.g 94)
-    chargeLimitSocMax,  // integer percentage (e.g 100)
-    chargeLimitSocMin,   // integer percentage (e.g 50)
-    chargeLimitSocStd,  // integer percentage (e.g 90)
-    chargeMilesAddedIdeal,   // floating point number (e.g 41.5)
-    chargeMilesAddedRated,   // floating point number (e.g 41.5)
+    chargeLimitSocMax, // integer percentage (e.g 100)
+    chargeLimitSocMin, // integer percentage (e.g 50)
+    chargeLimitSocStd, // integer percentage (e.g 90)
+    chargeMilesAddedIdeal, // floating point number (e.g 41.5)
+    chargeMilesAddedRated, // floating point number (e.g 41.5)
     chargePortColdWeatherMode, // boolean
     chargePortDoorOpen, // boolean
     chargePortLatch, // e.g "Engaged"  TODO: find out these values.
     chargeRate, // a number (TODO: check these values when charging the car)
     chargeToMaxRange, // boolean
-    chargerActualCurrent: 0, // a number (TODO: check these values when charging the car)
+    chargerActualCurrent, // a number (TODO: check these values when charging the car)
     chargerPhases, // 1 = single, 3 = three  TODO: is there such a thing as 2 phase power?
     chargerPilotCurrent, // something else measured in amps (e.g. 8)
     chargerPower, // a number (TODO: check these values when charging the car)
-    chargerVoltage: 2, // an integer (e.g 2)
+    chargerVoltage, // an integer (e.g 2)
     chargingState, // e.g. "Stopped"  TODO: find out these values.
     connChargeCable, // e.g. "IEC"  TODO: find out these values.
     estBatteryRange, // floating point value using imperial units (miles) (e.g. 273.36)
     fastChargerBrand, // e.g. "<invalid>"
     fastChargerPresent, // boolean
     fastChargerType, // e.g. "MCSingleWireCAN"  TODO: find out these values.
-    idealBatteryRange,// floating point value using imperial units (miles) (e.g. 281.16)
+    idealBatteryRange, // floating point value using imperial units (miles) (e.g. 281.16)
     managedChargingActive, // boolean
     managedChargingStartTime, // a timestamp or null
     managedChargingUserCanceled, // boolean
@@ -611,9 +611,9 @@ const {
     scheduledChargingPending, // boolean
     scheduledChargingStartTime, //  unix epoch timestamp
     timeToFullCharge, // integer count (e.g 0)
-    timestamp,//  unix epoch timestamp
+    timestamp, //  unix epoch timestamp
     tripCharging, // boolean
-    usableBatteryLevel: 93, // integer percentage (e.g 93)
+    usableBatteryLevel, // integer percentage (e.g 93)
     userChargeEnableRequest // e.g. null  TODO: find out these values.
   }
 } = await vehicles.chargeState({ id, token })
@@ -868,20 +868,81 @@ Sets the temperature for the car's climate control system.
 
 The request requires the parameter `driverTemp`. It also accepts a `passengerTemp` but only the `driverTemp` is actually used right now. This may change in the future.
 
-**Notes**
+#### Notes
 
 - The values for `driverTemp` and `passengerTemp` are always in Metric (`°C`) no matter what you have set in `guiSettings`.
 - If you set the temperature very low or very high the HVAC system will start heating or cooling immediately.
 
 ```js
-const driverTemp = 23.4 // degrees celcius.
+const driverTemp = 23.4 // degrees celsius.
 const {
   response: { result, reason }
 } = await vehicles.setTemps({ id, token, driverTemp })
 ```
 
 - On `timdorr`: [`post-api-1-vehicles-id-command-auto_conditioning_stop`](https://tesla-api.timdorr.com/vehicle/commands/climate#post-api-1-vehicles-id-command-auto_conditioning_stop)
-- On `teslaapi`: [`stop-hvac-system`](https://www.teslaapi.io/vehicles/commands#stop-hvac-system)
+- On `teslaapi`: [`stop-hvac-system`](https://www.teslaapi.io/vehicles/commands#stop-hvac-system) the api claims that the params get passed in as query params but this is not actually true.
+
+---
+
+### `setPreconditoningMax`
+
+Toggles the climate controls between Max Defrost and the previous setting.
+
+You can pass `on: true`, or 'on: false' to this multiple times, without error.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.setPreconditioningMax({ id, token, on: true })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-set_preconditioning_max`](https://tesla-api.timdorr.com/vehicle/commands/climate#post-api-1-vehicles-id-command-set_preconditioning_max)
+- On `teslaapi`: not listed
+
+---
+
+### `setSeatHeater`
+
+Sets the seat heater level for the nominated seat.
+
+**Note** You _must_ have already turned the car's climate system on first with `autoConditioningStart` for this to work. If you don't you'll get an error. Also in testing I found this API call quite prone to timeout errors.
+
+| Value | Seat        |
+| ----- | ----------- |
+| `0`   | front left  |
+| `1`   | front right |
+| `2`   | rear left   |
+| `3`   | rear center |
+| `4`   | rear right  |
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.setSeatHeater({ id, token, heater: 0, level: 1 })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-remote_seat_heater_request`](https://tesla-api.timdorr.com/vehicle/commands/climate#post-api-1-vehicles-id-command-remote_seat_heater_request)
+- On `teslaapi`: not listed
+
+---
+
+### `setSteeringWheelHeater`
+
+Turns the steering wheel heater on or off.
+
+**Note** You _must_ have already turned the car's climate system on first with `autoConditioningStart` for this to work. If you don't you'll get an error.
+
+**Also Note** I am not sure that my Model 3 even has a steering wheel heater so all I get from this is a timeout error.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.setSteeringWheelHeater({ id, token, on: true }) // or on: false
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-remote_steering_wheel_heater_request`](https://tesla-api.timdorr.com/vehicle/commands/climate#post-api-1-vehicles-id-command-remote_steering_wheel_heater_request)
+- On `teslaapi`: not listed
 
 ---
 
@@ -899,7 +960,7 @@ _More API documentation to come_: See the actual code for what's completely supp
 
 ### Prerequisites
 
-- [NodeJS](htps://nodejs.org), version 12.18.4 (LTS) or better (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.)
+- [NodeJS](htps://nodejs.org), version 12.19.0 (LTS) or better (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.)
 
 ### Install dependencies
 
