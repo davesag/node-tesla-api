@@ -8,9 +8,10 @@ const validation = {
 }
 
 const setChargeLimit = async ({ token, id, percent }) => {
+  validateFields({ percent, token, id }, validation)
   const payload = { percent }
   const { post } = getTransport({ token })
-  validateFields({ ...payload, token, id }, validation)
+
   return post(`/api/1/vehicles/${id}/command/set_charge_limit`, payload)
 }
 

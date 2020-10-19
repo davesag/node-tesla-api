@@ -4,7 +4,7 @@ A modern NodeJS implementation of the [(unofficial) Tesla API](https://tesla-api
 
 [![NPM](https://nodei.co/npm/node-tesla-api.png)](https://nodei.co/npm/node-tesla-api/)
 
-_under development: features outlined below may not be final_
+Under development: _features outlined below may not be final_.
 
 ## Usage
 
@@ -12,13 +12,13 @@ _under development: features outlined below may not be final_
 npm i node-tesla-api
 ```
 
-I'm only focussing on the OAuth and Vehicles aspects of the Tesla API for now.
+I'm only focussing on the `oauth`, `vehicles`, and `logs` parts of the Tesla API for now.
 
 The API follows the commands outlined in the [(unofficial) Tesla API](https://tesla-api.timdorr.com), but uses camelCase instead of underscores.
 
-**You'll need to own a Tesla to make use of this API.**
+**You'll need to have access to a Tesla**, and have a valid Tesla username and password to make use of this API.
 
-Please feel free to use [my Tesla referral code](https://ts.la/david60377) when you buy a Tesla - we both get some free charging that way.
+Please feel free to use [my Tesla referral code](https://ts.la/david60377) if you buy a Tesla - we both get some free charging that way.
 
 My code is: [`david60377`](https://ts.la/david60377)
 
@@ -70,6 +70,12 @@ start('your-tesla@account.email', 'Y0uRP@55w0rd').catch(err => {
 ```
 
 ## API
+
+The API is broken down into
+
+- `oauth` — you provide your username and password and get back a `token`.
+- `vehicles` - using the `token` you interact with your vehicles
+- `logs` - using the `token` you can perform various diagnostics, but only if the token has the correct embedded permissions.
 
 ### `oauth`
 
@@ -205,7 +211,7 @@ The keen observer will note that this is the same data as returned in the vehicl
 
 ---
 
-### `wake`
+#### `wake`
 
 When you first get the details of your car, you need to check the `state` to see if it's `'online'` or not.
 
@@ -246,14 +252,14 @@ Then you can just call
 await wakeCar({ id, token })
 ```
 
-**ToDo**: Compose a high-level API that simplifies the use of this low-level API wrapper. (See https://github.com/davesag/node-tesla-api/issues/28)
+**ToDo**: Compose a high-level API that simplifies the use of this low-level API wrapper. (See [issues/28](https://github.com/davesag/node-tesla-api/issues/28))
 
 - On `timdorr`: [`post-api-1-vehicles-id-wake_up`](https://tesla-api.timdorr.com/vehicle/commands/wake#post-api-1-vehicles-id-wake_up)
 - On `teslaapi`: [`wake-up`](https://www.teslaapi.io/vehicles/commands#wake-up)
 
 ---
 
-### `vehicleData`
+#### `vehicleData`
 
 Now you know how to wake your car, let's take a look at the full set of car data.
 
@@ -448,7 +454,7 @@ const {
       summonStandbyModeEnabled, // boolean
       timestamp, // numeric unix epoch time
       valetMode, // boolean
-      valepPinNeeded, // boolean
+      valetPinNeeded, // boolean
       vehicleName // TODO: is this different to the displayName of the vehicle?
     }
 } = await vehicles.vehicleState({ id, token })
@@ -459,7 +465,7 @@ const {
 
 ---
 
-### `vehicleState`
+#### `vehicleState`
 
 The car's current state (This is the same as the `vehicleState` field in the response to `vehicles.vehicleData()`)
 
@@ -514,7 +520,7 @@ const {
     summonStandbyModeEnabled, // boolean
     timestamp, // numeric unix epoch time
     valetMode, // boolean
-    valepPinNeeded, // boolean
+    valetPinNeeded, // boolean
     vehicleName // TODO: is this different to the displayName of the vehicle?
   }
 } = await vehicles.vehicleState({ id, token })
@@ -525,7 +531,7 @@ const {
 
 ---
 
-### `vehicleConfig`
+#### `vehicleConfig`
 
 The car's configuration (This is the same as the `vehicleConfig` field in the response to `vehicles.vehicleData()`)
 
@@ -565,7 +571,7 @@ const {
 
 ---
 
-### `chargeState`
+#### `chargeState`
 
 The car's current charge state. (This is the same as the `chargeState` field in the response to `vehicles.vehicleData()`)
 
@@ -624,7 +630,7 @@ const {
 
 ---
 
-### `climateState`
+#### `climateState`
 
 The car's current climate state. (This is the same as the `climateState` field in the response to `vehicles.vehicleData()`)
 
@@ -667,7 +673,7 @@ const {
 
 ---
 
-### `driveState`
+#### `driveState`
 
 The car's current location and driving state. (This is the same as the `driveState` field in the response to `vehicles.vehicleData()`)
 
@@ -695,7 +701,7 @@ const {
 
 ---
 
-### `guiSettings`
+#### `guiSettings`
 
 Localisation settings including units for distances, temperatures, and charge, as well as the clock type. (This is the same as the `guiSettings` field in the response to `vehicles.vehicleData()`)
 
@@ -718,7 +724,7 @@ const {
 
 ---
 
-### `mobileEnabled`
+#### `mobileEnabled`
 
 Is mobile access enabled?
 
@@ -731,7 +737,7 @@ const { response: mobileEnabled } = await vehicles.mobileEnabled({ id, token })
 
 ---
 
-### `serviceData`
+#### `serviceData`
 
 Current servicing data.
 
@@ -749,7 +755,7 @@ const {
 
 ---
 
-### `nearbyChargingSites`
+#### `nearbyChargingSites`
 
 Lists Tesla-operated charging stations near to the car.
 
@@ -792,7 +798,22 @@ const {
 
 ---
 
-## Commands.
+#### `upcomingCalendarEntries`
+
+If you have allowed your car to share your calendar then this will list your upcoming calendar entries.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.upcomingCalendarEntries({ id, token })
+```
+
+- On `timdorr`: [`calendar`](https://tesla-api.timdorr.com/vehicle/commands/calendar)
+- On `teslaapi`: [`upcoming-calendar-entries`](https://www.teslaapi.io/vehicles/commands#upcoming-calendar-entries)
+
+---
+
+### Commands
 
 It's great to be able to get data from your car, but what about making it do things? We already saw the `wake` command above.
 
@@ -800,7 +821,7 @@ Commands all return a response with a `result` (boolean) and, if the `result` is
 
 ---
 
-### `honkHorn`
+#### `honkHorn`
 
 Beeps the car's horn. _toot!_
 
@@ -815,7 +836,7 @@ const {
 
 ---
 
-### `flashLights`
+#### `flashLights`
 
 Flashes the car's headlights.
 
@@ -830,7 +851,7 @@ const {
 
 ---
 
-### `autoConditioningStart`
+#### `autoConditioningStart`
 
 Start the car's climate control system. It will use the temperature and set-warming options you've previously set. Repeated calls to this will not cause an error, though obviously if the car's climate control system is on it's not going to turn on again.
 
@@ -845,7 +866,7 @@ const {
 
 ---
 
-### `autoConditioningStop`
+#### `autoConditioningStop`
 
 Stop the car's climate control system.
 
@@ -862,13 +883,13 @@ const {
 
 ---
 
-### `setTemps`
+#### `setTemps`
 
 Sets the temperature for the car's climate control system.
 
 The request requires the parameter `driverTemp`. It also accepts a `passengerTemp` but only the `driverTemp` is actually used right now. This may change in the future.
 
-#### Notes
+##### Notes
 
 - The values for `driverTemp` and `passengerTemp` are always in Metric (`°C`) no matter what you have set in `guiSettings`.
 - If you set the temperature very low or very high the HVAC system will start heating or cooling immediately.
@@ -885,7 +906,7 @@ const {
 
 ---
 
-### `setPreconditoningMax`
+#### `setPreconditoningMax`
 
 Toggles the climate controls between Max Defrost and the previous setting.
 
@@ -902,7 +923,7 @@ const {
 
 ---
 
-### `setSeatHeater`
+#### `setSeatHeater`
 
 Sets the seat heater level for the nominated seat.
 
@@ -927,7 +948,7 @@ const {
 
 ---
 
-### `setSteeringWheelHeater`
+#### `setSteeringWheelHeater`
 
 Turns the steering wheel heater on or off.
 
@@ -946,7 +967,359 @@ const {
 
 ---
 
-_More API documentation to come_: See the actual code for what's completely supported.
+#### `mediaTogglePlayback`
+
+Either toggles the media between `playing` and `paused`, or if the car is tuned to a radio station, this mutes or un-mutes the audio.
+
+**Note** You, or someone, _must_ have turned the car on and be sitting in it for this to work. If you don't you'll get a 'user_not_present' error.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.mediaTogglePlayback({ id, token })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-media_toggle_playback`](https://tesla-api.timdorr.com/vehicle/commands/media#post-api-1-vehicles-id-command-media_toggle_playback)
+- On `teslaapi`: not listed
+
+---
+
+#### `mediaNextTrack`
+
+Skips the media to the next track, unless the car is tuned to a radio station.
+
+**Note** You, or someone, _must_ have turned the car on and be sitting in it for this to work. If you don't you'll get a 'user_not_present' error.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.mediaNextTrack({ id, token })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-media_next_track`](https://tesla-api.timdorr.com/vehicle/commands/media#post-api-1-vehicles-id-command-media_next_track)
+- On `teslaapi`: not listed
+
+---
+
+#### `mediaPrevTrack`
+
+Skips the media to the previous track, unless the car is tuned to a radio station.
+
+**Note** You, or someone, _must_ have turned the car on and be sitting in it for this to work. If you don't you'll get a 'user_not_present' error.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.mediaPrevTrack({ id, token })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-media_prev_track`](https://tesla-api.timdorr.com/vehicle/commands/media#post-api-1-vehicles-id-command-media_prev_track)
+- On `teslaapi`: not listed
+
+---
+
+#### `mediaNextFav`
+
+Skips the media to the next 'favourite', however that is defined, **e.g** if the car is tuned to a radio station, it switches to the next radio station in your favourites.
+
+**Note** You, or someone, _must_ have turned the car on and be sitting in it for this to work. If you don't you'll get a 'user_not_present' error.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.mediaNextFav({ id, token })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-media_next_track`](https://tesla-api.timdorr.com/vehicle/commands/media#post-api-1-vehicles-id-command-media_next_track)
+- On `teslaapi`: not listed
+
+---
+
+#### `mediaPrevFav`
+
+Skips the media to the previous 'favourite', however that is defined, **e.g** if the car is tuned to a radio station, it switches to the previous radio station in your favourites.
+
+**Note** You, or someone, _must_ have turned the car on and be sitting in it for this to work. If you don't you'll get a 'user_not_present' error.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.mediaPrevFav({ id, token })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-media_prev_track`](https://tesla-api.timdorr.com/vehicle/commands/media#post-api-1-vehicles-id-command-media_prev_track)
+- On `teslaapi`: not listed
+
+---
+
+#### `mediaVolumeUp`
+
+Turns the volume up.
+
+**Note** You, or someone, _must_ have turned the car on and be sitting in it for this to work. If you don't you'll get a 'user_not_present' error.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.mediaVolumeUp({ id, token })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-media_volume_up`](https://tesla-api.timdorr.com/vehicle/commands/media#post-api-1-vehicles-id-command-media_volume_up)
+- On `teslaapi`: not listed
+
+---
+
+#### `mediaVolumeDown`
+
+Turns the volume down.
+
+**Note** You, or someone, _must_ have turned the car on and be sitting in it for this to work. If you don't you'll get a 'user_not_present' error.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.mediaVolumeDown({ id, token })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-media_volume_down`](https://tesla-api.timdorr.com/vehicle/commands/media#post-api-1-vehicles-id-command-media_volume_down)
+- On `teslaapi`: not listed
+
+---
+
+#### `share`
+
+Share a video url, or navigation destination. If the car is in 'theatre mode' the url will launch the appropriate player. If the `value` you send is a street address, then it will set the navigation system to navigate to that address.
+
+If the car can't understand the value you send it will return an error.
+
+```js
+const value = '1 Commonwealth Avenue, Yarralumla ACT 2600, Australia'
+
+const {
+  response: { result, reason }
+} = await vehicles.share({ id, token, value, locale: 'en-AU' }) // locale is optional, it will default to your OS's system locale.
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-share`](https://tesla-api.timdorr.com/vehicle/commands/sharing#post-api-1-vehicles-id-command-share)
+- On `teslaapi`: not listed
+
+---
+
+#### `setSentryMode`
+
+Turn sentry mode on or off.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.setSentryMode({ id, token, on: true }) // or `on: false` for off.
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-set_sentry_mode`](https://tesla-api.timdorr.com/vehicle/commands/sentrymode#post-api-1-vehicles-id-command-set_sentry_mode)
+- On `teslaapi`: not listed
+
+---
+
+#### `actuateTrunk`
+
+Opens (or 'pops' depending on your hardware) the 'frunk' or boot.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.actuateTrunk({ id, token, which: 'front' }) // for the 'frunk', or `which: 'rear'` for the boot.
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-actuate_trunk`](https://tesla-api.timdorr.com/vehicle/commands/trunk#post-api-1-vehicles-id-command-actuate_trunk)
+- On `teslaapi`: not listed
+
+---
+
+#### `windowControl`
+
+Lets you 'vent' or 'close' the car's windows.
+
+**Note** to 'close' the windows you must also provide a gps location that's close to the car. You can get the car's current gps location from `vehicles.driveState`. Alternatively you could issue a `lock` command which will also close the windows if the car was not locked.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.windowControl({ id, token, command: 'vent' })
+```
+
+or
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.windowControl({ id, token, command: 'close', lat: -35.297476, lon: 149.12579 })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-window_control`](https://tesla-api.timdorr.com/vehicle/commands/windows#post-api-1-vehicles-id-command-window_control)
+- On `teslaapi`: not listed
+
+---
+
+#### `sunRoofControl`
+
+Lets you 'vent' or 'close' the car's sun roof if it has a sun roof.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.sunRoofControl({ id, token, state: 'vent' })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-sun_roof_control`](https://tesla-api.timdorr.com/vehicle/commands/sunroof#post-api-1-vehicles-id-command-sun_roof_control)
+- On `teslaapi`: not listed
+
+---
+
+#### `triggerHomelink`
+
+Lets you trigger the HomeLink controller if it is connected.
+
+**Note** You must also provide a gps location that's close to the homelink device.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.triggerHomelink({ id, token, lat: -35.297476, lon: 149.12579 })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-trigger_homelink`](https://tesla-api.timdorr.com/vehicle/commands/homelink#post-api-1-vehicles-id-command-trigger_homelink)
+- On `teslaapi`: not listed
+
+---
+
+#### `scheduleSoftwareUpdate`
+
+If you have a pending software update, this command lets you schedule a time for the install to happen. If you do not provide an offset then it will attempt to install immediately.
+
+If there is no software update available you'll get a `result: false` and `reason: update_not_available`.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.scheduleSoftwareUpdate({ id, token })
+```
+
+or, to install in an hour:
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.scheduleSoftwareUpdate({ id, token, offset: 3600 }) // offset is in seconds
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-schedule_software_update`](https://tesla-api.timdorr.com/vehicle/commands/softwareupdate#post-api-1-vehicles-id-command-schedule_software_update)
+- On `teslaapi`: not listed
+
+---
+
+#### `cancelSoftwareUpdate`
+
+If you have a pending software update, and you've scheduled an installation time, then this lets you cancel that installation.
+
+If there is no software update scheduled you'll get a `result: false` and `reason: no_update_scheduled`.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.cancelSoftwareUpdate({ id, token })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-cancel_software_update`](https://tesla-api.timdorr.com/vehicle/commands/softwareupdate#post-api-1-vehicles-id-command-cancel_software_update)
+- On `teslaapi`: not listed
+
+---
+
+#### `setValetMode`
+
+Valet Mode limits the car's top speed to 110 Kilometres per hour and 80kW of acceleration power. It also disables Homelink, Bluetooth, and Wifi settings, as well as the ability to disable mobile access to the car.
+
+It also hides your favourites, as well as your home, and work locations in navigation.
+
+If you provide a password then anyone with that password, (a numeric PIN) can disable Valet Mode from the screen in the car. You can always disable Valet Mode from the API without a password however. It only applies to the person driving your car.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.setValetMode({ id, token, on: true, password: 1234 })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-set_valet_mode`](https://tesla-api.timdorr.com/vehicle/commands/valet#post-api-1-vehicles-id-command-set_valet_mode)
+- On `teslaapi`: [`set-valet-mode`](https://www.teslaapi.io/vehicles/commands#set-valet-mode)
+
+---
+
+#### `resetValetPin`
+
+Clears the Valet Mode `PIN`, meaning that once Valet Mode is disabled, you can enable it with or without a new `PIN`.
+
+```js
+const {
+  response: { result, reason }
+} = await vehicles.resetValetPin({ id, token })
+```
+
+- On `timdorr`: [`post-api-1-vehicles-id-command-reset_valet_pin`](https://tesla-api.timdorr.com/vehicle/commands/valet#post-api-1-vehicles-id-command-reset_valet_pin)
+- On `teslaapi`: [`reset-valet-pin`](https://www.teslaapi.io/vehicles/commands#reset-valet-pin)
+
+---
+
+## `logs`
+
+Using the `accessToken` issued above, if you have the appropriate 'entitlements' (defined by Tesla and embedded into the token Tesla give you) you can you use the `logs` functions to perform diagnostics on your account. Use `logs.getEntitlements` to check if you have the right permissions.
+
+```js
+const { logs } = require('node-tesla-api')
+```
+
+---
+
+### `getEntitlements`
+
+Does your `token` allow you to perform diagnostics?
+
+```js
+const {
+  response: { eligible } // eligible will be true or false
+} = await logs.getEntitlements({ token })
+```
+
+- On `timdorr`: not listed
+- On `teslaapi`: [`logs/diagnostics#entitlements`](https://www.teslaapi.io/logs/diagnostics#entitlements)
+
+---
+
+### `getLogs`
+
+If you are eligible for logs you can get the account logs associated with your token. _hint_ you probably are not eligible.
+
+```js
+const {
+  response: { result, reason }
+} = await logs.getLogs({ token })
+```
+
+- On `timdorr`: not listed
+- On `teslaapi`: [`logs/logs`](https://www.teslaapi.io/logs/logs)
+
+---
+
+### `sendEntitlements`
+
+It's hard to know what this does.
+
+```js
+const {
+  response: { result, reason }
+} = await logs.sendEntitlements({ token })
+```
+
+- On `timdorr`: not listed
+- On `teslaapi`: [`logs/diagnostics#send`](https://www.teslaapi.io/logs/diagnostics#send)
 
 ---
 
@@ -960,7 +1333,7 @@ _More API documentation to come_: See the actual code for what's completely supp
 
 ### Prerequisites
 
-- [NodeJS](htps://nodejs.org), version 12.19.0 (LTS) or better (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.)
+- [NodeJS](https://nodejs.org), version 12.19.0 (LTS) or better (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.)
 
 ### Install dependencies
 
@@ -995,8 +1368,6 @@ or with code coverage
 ```sh
 npm run test:unit:cov
 ```
-
-_code coverage on this project is shamefully lacking. I am fixing that_
 
 ## Contributing
 

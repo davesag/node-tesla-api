@@ -14,9 +14,10 @@ const validation = {
  *  @returns {Object} — api response object as per docs, but with camelCase keys.
  */
 const remoteStartDrive = async ({ token, id, password }) => {
+  validateFields({ token, id, password }, validation)
   const payload = { password }
   const { post } = getTransport({ token })
-  validateFields({ ...payload, token, id }, validation)
+
   return post(`/api/1/vehicles/${id}/command/remote_start_drive`, payload)
 }
 
