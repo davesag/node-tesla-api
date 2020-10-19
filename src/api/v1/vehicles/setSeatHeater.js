@@ -10,8 +10,9 @@ const validation = {
 
 const setSeatHeater = async ({ token, id, heater, level }) => {
   const payload = { heater, level }
-  const { post } = getTransport({ token })
   validateFields({ ...payload, token, id }, validation)
+  const { post } = getTransport({ token })
+
   return post(`/api/1/vehicles/${id}/command/remote_seat_heater_request`, payload)
 }
 

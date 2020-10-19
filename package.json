@@ -111,5 +111,8 @@
     "all": true,
     "cache": true
   },
-  "snyk": true
+  "snyk": true,
+  "dependencies": {
+    "os-locale": "^5.0.0"
+  }
 }

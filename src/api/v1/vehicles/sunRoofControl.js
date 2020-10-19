@@ -4,13 +4,14 @@ const { validateFields } = require('../../../validation')
 const validation = {
   token: ['isRequired'],
   id: ['isRequired'],
-  state: ['isRequired']
+  state: ['isRequired'] // TODO: oneOf(['vent', 'open'])
 }
 
-const sunRoofControl = async ({ token, id, state, percent }) => {
-  const payload = state === 'move' ? { state, percent } : { state }
+const sunRoofControl = async ({ token, id, state }) => {
+  validateFields({ token, id, state }, validation)
+  const payload = { state }
   const { post } = getTransport({ token })
-  validateFields({ ...payload, token, id }, validation)
+
   return post(`/api/1/vehicles/${id}/command/sun_roof_control`, payload)
 }
 
