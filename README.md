@@ -1333,7 +1333,7 @@ const {
 
 ### Prerequisites
 
-- [NodeJS](https://nodejs.org), version 12.19.0 (LTS) or better (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.)
+- [NodeJS](https://nodejs.org), version 15.0.1 or better (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.)
 
 ### Install dependencies
 
