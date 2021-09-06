@@ -1329,11 +1329,11 @@ const {
 | branch | status | coverage | audit | notes |
 | ------ | ------ | -------- | ----- | ----- |
 | `develop` | [![CircleCI](https://circleci.com/gh/davesag/node-tesla-api/tree/develop.svg?style=svg)](https://circleci.com/gh/davesag/node-tesla-api/tree/develop) | [![codecov](https://codecov.io/gh/davesag/node-tesla-api/branch/develop/graph/badge.svg)](https://codecov.io/gh/davesag/node-tesla-api) | [![Vulnerabilities](https://snyk.io/test/github/davesag/node-tesla-api/develop/badge.svg)](https://snyk.io/test/github/davesag/node-tesla-api/develop) | work in progress |
-| `master`  | [![CircleCI](https://circleci.com/gh/davesag/node-tesla-api/tree/master.svg?style=svg)](https://circleci.com/gh/davesag/node-tesla-api/tree/master) | [![codecov](https://codecov.io/gh/davesag/node-tesla-api/branch/master/graph/badge.svg)](https://codecov.io/gh/davesag/node-tesla-api) | [![Vulnerabilities](https://snyk.io/test/github/davesag/node-tesla-api/master/badge.svg)](https://snyk.io/test/github/davesag/node-tesla-api/master) | latest stable release |
+| `main`  | [![CircleCI](https://circleci.com/gh/davesag/node-tesla-api/tree/main.svg?style=svg)](https://circleci.com/gh/davesag/node-tesla-api/tree/main) | [![codecov](https://codecov.io/gh/davesag/node-tesla-api/branch/main/graph/badge.svg)](https://codecov.io/gh/davesag/node-tesla-api) | [![Vulnerabilities](https://snyk.io/test/github/davesag/node-tesla-api/main/badge.svg)](https://snyk.io/test/github/davesag/node-tesla-api/main) | latest stable release |
 
 ### Prerequisites
 
-- [NodeJS](https://nodejs.org), version 12.19.0 (LTS) or better (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.)
+- [NodeJS](htps://nodejs.org). I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.
 
 ### Install dependencies
 
