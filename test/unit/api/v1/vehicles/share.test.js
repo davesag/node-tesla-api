@@ -7,7 +7,7 @@ describe('src/api/v1/vehicles/share', () => {
   const result = ['hooray']
   const post = stub().resolves({ result })
   const getTransport = stub().returns({ post })
-  const osLocale = stub()
+  const readOsLocale = stub()
 
   const validateFields = spy()
 
@@ -28,7 +28,7 @@ describe('src/api/v1/vehicles/share', () => {
   const share = proxyquire('../../../../../src/api/v1/vehicles/share', {
     '../../../utils/transport': { getTransport },
     '../../../validation': { validateFields },
-    'os-locale': osLocale
+    '../../../utils/readOsLocale': readOsLocale
   })
 
   context('given a locale', () => {
@@ -64,14 +64,14 @@ describe('src/api/v1/vehicles/share', () => {
     const payload = { token, id, value }
 
     before(async () => {
-      osLocale.resolves(locale)
+      readOsLocale.resolves(locale)
       await share(payload)
     })
 
     after(resetHistory)
 
-    it('called osLocal with spawn = false', () => {
-      expect(osLocale).to.have.been.calledOnceWith({ spawn: false })
+    it('called readOsLocale', () => {
+      expect(readOsLocale).to.have.been.calledOnce
     })
 
     it('called validateFields', () => {

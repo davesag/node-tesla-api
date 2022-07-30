@@ -1,7 +1,6 @@
-const osLocale = require('os-locale')
-
 const { getTransport } = require('../../../utils/transport')
 const { validateFields } = require('../../../validation')
+const readOsLocale = require('../../../utils/readOsLocale')
 
 const validation = {
   token: ['isRequired'],
@@ -11,7 +10,7 @@ const validation = {
 }
 
 const share = async ({ token, id, value, locale: loc }) => {
-  const locale = loc || (await osLocale({ spawn: false }))
+  const locale = loc || (await readOsLocale())
   validateFields({ token, id, value, locale }, validation)
 
   const payload = {
