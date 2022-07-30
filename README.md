@@ -6,6 +6,12 @@ A modern NodeJS implementation of the [(unofficial) Tesla API](https://tesla-api
 
 Under development: _features outlined below may not be final_.
 
+## It's borked
+
+Tesla changed their Auth process so I need to update this API. Right now it does not work.
+
+Ref: [`timdorr/tesla-api/issues/260`](https://github.com/timdorr/tesla-api/issues/260)
+
 ## Usage
 
 ```sh
