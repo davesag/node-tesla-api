@@ -19,7 +19,7 @@ describe('utils/transport', () => {
   axios.create = stub().returns(axios)
 
   const { getTransport, close } = proxyquire('../../../src/utils/transport', {
-    axios: axios,
+    axios,
     './makeTransformError': makeTransformError,
     './transformResponse': transformResponse
   })
